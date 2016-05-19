@@ -1,3 +1,11 @@
+##Night Guard Changes to jamorham/wixel-xDrip (Parakeet)
+
+This fork contains small modifications to original project:
+- added define, so that Night Guard WS is always called
+- added parameter connector_uuid to WS call, so that device can be identified by WS
+- configuration is moved to my_transmitter_id.h, file is created with all required parameters (which can be automaticaly genearated by Night Guard Website, so that all confuration is done there)
+
+
 ##What is the Parakeet?
 The Parakeet is a portable home-built device which receives wireless signals from a commercial continuous glucose sensor worn on the body. It transmits these over the phone network to a private or cloud internet server.
 
