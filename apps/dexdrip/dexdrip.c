@@ -1,4 +1,4 @@
-﻿/** XDRIP GSM Bridge:
+/** XDRIP GSM Bridge:
     Project Parakeet
 
   == Description ==
