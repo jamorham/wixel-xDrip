@@ -1,4 +1,4 @@
-/** XDRIP GSM Bridge:
+﻿/** XDRIP GSM Bridge:
     Project Parakeet
 
   == Description ==
@@ -232,6 +232,7 @@ static volatile BIT doing_retry = 0;
 static uint32 XDATA gsm_delay = 0;	// how long we spent uplinking
 static uint32 XDATA lastraw = 0;
 static uint32 XDATA lastfiltered = 0;
+static uint8 XDATA last_transmittion_id = 0;
 static uint32 XDATA lasttime = 0;
 static uint32 XDATA general_timer = 0;
 volatile uint8 sequential_missed_packets = 0;
@@ -1403,6 +1404,7 @@ print_packet (Dexcom_packet * pPkt)
     lasttime = getMs ();
     lastraw = dex_num_decoder (pPkt->raw);
     lastfiltered = dex_num_decoder (pPkt->filtered) * 2;
+    last_transmittion_id = (pPkt->txId & 0xFC) >> 2;
 
     uartEnable ();
 
@@ -1478,7 +1480,7 @@ gsm_send_command_getdata (const char *command, const char *response, int timeout
 
 #ifdef GET_BATTERY_STATUS
         sprintf (param,"%s?rr=%lu&zi=%lu&pc=%s&lv=%lu&lf=%lu&db=%hhu",settings.http_url, getMs (), dex_tx_id, settings.udp_port, lastraw, lastfiltered,last_dex_battery);
-        sprintf (stringBuffer, "&ts=%lu&bp=%d&bm=%d&ct=%d&gl=%s", (getMs () - lasttime), batteryPercent, batteryMillivolts, getCpuDegC(), lastLocation);
+        sprintf (stringBuffer, "&ts=%lu&bp=%d&bm=%d&ct=%d&gl=%s&ti=%hhu", (getMs () - lasttime), batteryPercent, batteryMillivolts, getCpuDegC(), lastLocation, last_transmittion_id);
 #else
         sprintf (param, "%s?rr=%lu&zi=%lu&pc=%s&lv=%lu", settings.http_url,getMs (), dex_tx_id, settings.udp_port lastraw,
                  sprintf (stringBuffer,"&lf=%lu&ts=%lu&ct=%d&gl=%s",
